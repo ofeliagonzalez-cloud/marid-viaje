@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viaje a Madrid · La Marina Travel</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --tierra: #8B5E3C;
+    --tierra-claro: #C4956A;
+    --crema: #F7F1E8;
+    --crema-oscura: #EDE4D4;
+    --tinta: #1C1410;
+    --tinta-suave: #4A3728;
+    --rojo-madrid: #A63228;
+    --dorado: #C9A84C;
+    --gris-calido: #7A6A5A;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--crema);
+    color: var(--tinta);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-imagen {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-imagen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 60%, var(--crema) 100%);
+  }
+
+  .hero-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(20%) contrast(1.05);
+  }
+
+  .hero-contenido {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 40px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-etiqueta {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rojo-madrid);
+    margin-bottom: 24px;
+  }
+
+  .hero-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 5vw, 68px);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--tinta);
+    margin-bottom: 8px;
+  }
+
+  .hero-titulo em {
+    font-style: italic;
+    color: var(--tierra);
+  }
+
+  .hero-subtitulo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--tinta-suave);
+    margin-bottom: 40px;
+    line-height: 1.5;
+  }
+
+  .hero-datos {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .hero-dato {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .hero-dato-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gris-calido);
+  }
+
+  .hero-dato-valor {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--tinta);
+  }
+
+  .hero-dato-valor.precio {
+    color: var(--rojo-madrid);
+  }
+
+  .btn-principal {
+    display: inline-block;
+    background: var(--tinta);
+    color: var(--crema);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 18px 40px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    align-self: flex-start;
+  }
+
+  .btn-principal:hover {
+    background: var(--rojo-madrid);
+    transform: translateY(-2px);
+  }
+
+  .btn-secundario {
+    display: inline-block;
+    background: transparent;
+    color: var(--tinta);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 18px 40px;
+    border: 1.5px solid var(--tinta);
+    cursor: pointer;
+    transition: all 0.3s;
+    align-self: flex-start;
+  }
+
+  .btn-secundario:hover {
+    background: var(--tinta);
+    color: var(--crema);
+  }
+
+  /* ── LÍNEA DIVISORA ── */
+  .divisor {
+    width: 60px;
+    height: 1px;
+    background: var(--tierra-claro);
+    margin: 40px auto;
+  }
+
+  .divisor-izq {
+    margin-left: 0;
+  }
+
+  /* ── SECCIÓN IDENTIFICACIÓN ── */
+  .seccion-identificacion {
+    padding: 100px 0;
+    background: var(--crema-oscura);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .seccion-identificacion::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 400px;
+    color: rgba(139, 94, 60, 0.06);
+    position: absolute;
+    top: -80px;
+    left: -20px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .contenedor {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  .contenedor-estrecho {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  .label-seccion {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tierra);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .titulo-seccion {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--tinta);
+    margin-bottom: 32px;
+  }
+
+  .titulo-seccion em {
+    font-style: italic;
+    color: var(--tierra);
+  }
+
+  .texto-cuerpo {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--tinta-suave);
+    margin-bottom: 20px;
+  }
+
+  .texto-cuerpo strong {
+    font-weight: 500;
+    color: var(--tinta);
+  }
+
+  /* ── TESTIMONIO ── */
+  .bloque-testimonio {
+    background: var(--tinta);
+    padding: 60px;
+    margin: 60px 0;
+    position: relative;
+  }
+
+  .bloque-testimonio::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--rojo-madrid);
+  }
+
+  .testimonio-texto {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--crema);
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  .testimonio-firma {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--tierra-claro);
+  }
+
+  /* ── PROMESA / EXPERIENCIAS ── */
+  .seccion-promesa {
+    padding: 100px 0;
+    background: var(--crema);
+  }
+
+  .grid-experiencias {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--tierra-claro);
+    margin-top: 60px;
+    border: 1px solid var(--tierra-claro);
+  }
+
+  .experiencia-item {
+    background: var(--crema);
+    padding: 48px 40px;
+    transition: background 0.3s;
+  }
+
+  .experiencia-item:hover {
+    background: var(--crema-oscura);
+  }
+
+  .experiencia-numero {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 400;
+    color: rgba(139, 94, 60, 0.2);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .experiencia-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--tinta);
+    margin-bottom: 12px;
+  }
+
+  .experiencia-desc {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--gris-calido);
+    line-height: 1.7;
+  }
+
+  /* ── HISTORIA PERSONAL ── */
+  .seccion-historia {
+    padding: 100px 0;
+    background: var(--crema-oscura);
+    position: relative;
+  }
+
+  .historia-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .historia-lateral {
+    position: sticky;
+    top: 40px;
+  }
+
+  .historia-imagen-placeholder {
+    aspect-ratio: 3/4;
+    background: var(--tierra);
+    opacity: 0.15;
+    margin-bottom: 24px;
+  }
+
+  .historia-nombre {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--tinta);
+    margin-bottom: 8px;
+  }
+
+  .historia-rol {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--tierra);
+  }
+
+  .cita-grande {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(24px, 3.5vw, 38px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--tinta);
+    margin-bottom: 40px;
+    padding-left: 32px;
+    border-left: 2px solid var(--tierra-claro);
+  }
+
+  /* ── PRECIO ── */
+  .seccion-precio {
+    padding: 100px 0;
+    background: var(--tinta);
+    color: var(--crema);
+  }
+
+  .precio-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .precio-numero {
+    font-family: 'Playfair Display', serif;
+    font-size: 100px;
+    font-weight: 400;
+    color: var(--crema);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .precio-simbolo {
+    font-size: 48px;
+    color: var(--tierra-claro);
+  }
+
+  .precio-descripcion {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(247, 241, 232, 0.6);
+    margin-bottom: 32px;
+  }
+
+  .precio-deposito {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--tierra-claro);
+    padding: 16px 24px;
+    border: 1px solid rgba(196, 149, 106, 0.3);
+    margin-bottom: 40px;
+    display: inline-block;
+  }
+
+  .lista-incluido {
+    list-style: none;
+  }
+
+  .lista-incluido li {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(247, 241, 232, 0.85);
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(247, 241, 232, 0.08);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .lista-incluido li::before {
+    content: '—';
+    color: var(--tierra-claro);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .lista-no-incluido li {
+    color: rgba(247, 241, 232, 0.45);
+  }
+
+  .precio-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--crema);
+    margin-bottom: 24px;
+  }
+
+  .precio-subtitulo {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tierra-claro);
+    margin: 32px 0 16px;
+  }
+
+  /* ── FAQ ── */
+  .seccion-faq {
+    padding: 100px 0;
+    background: var(--crema);
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--crema-oscura);
+    padding: 32px 0;
+  }
+
+  .faq-pregunta {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--tinta);
+    margin-bottom: 16px;
+    cursor: pointer;
+  }
+
+  .faq-respuesta {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--gris-calido);
+    line-height: 1.8;
+    max-width: 680px;
+  }
+
+  /* ── CTA FINAL ── */
+  .seccion-cta-final {
+    padding: 120px 0;
+    background: var(--rojo-madrid);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .seccion-cta-final::before {
+    content: 'MADRID';
+    font-family: 'Playfair Display', serif;
+    font-size: 200px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.04);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .cta-final-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--crema);
+    margin-bottom: 24px;
+    line-height: 1.2;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-final-texto {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(247, 241, 232, 0.85);
+    margin-bottom: 48px;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-blanco {
+    display: inline-block;
+    background: var(--crema);
+    color: var(--rojo-madrid);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 20px 48px;
+    transition: all 0.3s;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-blanco:hover {
+    background: var(--tinta);
+    color: var(--crema);
+    transform: translateY(-2px);
+  }
+
+  .plazas-aviso {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(247, 241, 232, 0.6);
+    margin-top: 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .hero-imagen {
+      height: 50vh;
+    }
+    .hero-imagen::after {
+      background: linear-gradient(to bottom, transparent 60%, var(--crema) 100%);
+    }
+    .hero-contenido {
+      padding: 40px 24px 60px;
+    }
+    .hero-datos {
+      gap: 20px;
+    }
+    .grid-experiencias {
+      grid-template-columns: 1fr;
+    }
+    .historia-layout {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .historia-lateral {
+      position: static;
+    }
+    .precio-layout {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .bloque-testimonio {
+      padding: 40px 28px;
+    }
+    .contenedor, .contenedor-estrecho {
+      padding: 0 24px;
+    }
+    .precio-numero {
+      font-size: 72px;
+    }
+  }
+
+  /* ── ANIMACIONES DE ENTRADA ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-etiqueta { animation: fadeUp 0.6s ease both; }
+  .hero-titulo { animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-subtitulo { animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-datos { animation: fadeUp 0.6s 0.3s ease both; }
+  .btn-principal { animation: fadeUp 0.6s 0.4s ease both; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-imagen">
+    <img src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=900&q=80" alt="Madrid">
+  </div>
+  <div class="hero-contenido">
+    <span class="hero-etiqueta">La Marina Travel · Viaje de autor</span>
+    <h1 class="hero-titulo">
+      Madrid<br>
+      lo has visto.<br>
+      Pero nunca <em>así.</em>
+    </h1>
+    <p class="hero-subtitulo">Un viaje para descubrir la ciudad<br>a través de las mujeres que la cambiaron.</p>
+    <div class="hero-datos">
+      <div class="hero-dato">
+        <span class="hero-dato-label">Fechas</span>
+        <span class="hero-dato-valor">3 – 6 sept</span>
+      </div>
+      <div class="hero-dato">
+        <span class="hero-dato-label">Duración</span>
+        <span class="hero-dato-valor">4 días</span>
+      </div>
+      <div class="hero-dato">
+        <span class="hero-dato-label">Precio</span>
+        <span class="hero-dato-valor precio">690 €</span>
+      </div>
+      <div class="hero-dato">
+        <span class="hero-dato-label">Plazas</span>
+        <span class="hero-dato-valor">Máx. 10</span>
+      </div>
+    </div>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSde89gsm855XuAZ0vYreBviI8REiGr5-LNeIGgpK7CBgl5YPg/viewform" class="btn-principal">Quiero una llamada para saber más</a>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     IDENTIFICACIÓN
+════════════════════════════════════════════ -->
+<section class="seccion-identificacion">
+  <div class="contenedor-estrecho">
+    <span class="label-seccion">¿Te suena esto?</span>
+    <h2 class="titulo-seccion">Has viajado.<br>Has visitado museos.<br>Y aun así, <em>algo faltaba.</em></h2>
+
+    <p class="texto-cuerpo">Haces el tour cultural de siempre y nadie menciona a las mujeres que vivieron en esas calles. Ves obras maestras y no sabes quién las creó. Buscas algo más profundo que un itinerario de tres días en Google, pero no encuentras dónde.</p>
+
+    <p class="texto-cuerpo">Y cuando lo comentas en casa, en el trabajo, con las amigas — no todo el mundo lo entiende. Porque viajar para descubrir la historia de las mujeres no es lo más habitual. Y eso, a veces, hace que te sientas un poco sola en esto.</p>
+
+    <p class="texto-cuerpo"><strong>Lo que falta tiene un nombre: una perspectiva que lleva siglos silenciada.</strong> La historia de las mujeres está en cada rincón de Madrid. Solo hay que saber dónde mirar. Y tener a alguien que te lleve.</p>
+
+    <div class="bloque-testimonio">
+      <p class="testimonio-texto">"En casa ya. Queda este fin de semana en lo más hondo de mi corazón. Gracias por todo, por tanto."</p>
+      <span class="testimonio-firma">— Viajera del viaje a Madrid, diciembre 2025</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     PROMESA / EXPERIENCIAS
+════════════════════════════════════════════ -->
+<section class="seccion-promesa">
+  <div class="contenedor">
+    <span class="label-seccion">Lo que vamos a vivir</span>
+    <h2 class="titulo-seccion">No es turismo.<br><em>Es memoria viva.</em></h2>
+    <p class="texto-cuerpo" style="max-width:600px;">Durante 4 días vamos a recorrer una ciudad que crees conocer — pero que nunca has visto así. Cada lugar tiene una historia que no aparece en ninguna guía. Y yo te la voy a contar.</p>
+
+    <div class="grid-experiencias">
+      <div class="experiencia-item">
+        <div class="experiencia-numero">01</div>
+        <div class="experiencia-titulo">Barrio de las Letras · Las Sinsombrero</div>
+        <p class="experiencia-desc">Caminaremos por las calles donde vivió la primera mujer profesora de España, donde Las Sinsombrero se quitaron el sombrero en plena Gran Vía para reclamar su lugar en el mundo. Visitaremos la librería feminista más antigua de Madrid y conoceremos a las escritoras que el franquismo intentó borrar.</p>
+      </div>
+      <div class="experiencia-item">
+        <div class="experiencia-numero">02</div>
+        <div class="experiencia-titulo">Reina Sofía · Maruja Mallo</div>
+        <p class="experiencia-desc">Sus trazos, su rebeldía, su forma de existir en una época que no le dejaba espacio. Visitaremos su obra de la mano de alguien que lleva años estudiándola. No es una visita guiada. Es un encuentro con alguien que pintó el mundo como lo sentía, aunque eso le costara el exilio.</p>
+      </div>
+      <div class="experiencia-item">
+        <div class="experiencia-numero">03</div>
+        <div class="experiencia-titulo">Ruta de memoria histórica</div>
+        <p class="experiencia-desc">¿Cómo vivieron las mujeres durante el franquismo? ¿Qué resistieron? ¿Qué construyeron en la sombra mientras el régimen intentaba reducirlas? Iremos al encuentro de esas respuestas caminando juntas por los lugares donde ocurrió.</p>
+      </div>
+      <div class="experiencia-item">
+        <div class="experiencia-numero">04</div>
+        <div class="experiencia-titulo">Un grupo que se convierte en algo más</div>
+        <p class="experiencia-desc">Máximo 10 personas. Elegidas. Porque una de mis tareas es crear el grupo — asegurarme de que entre todas tejamos vínculos reales. No se trata solo de ver cosas bonitas. Se trata de vivir experiencias que conecten, que dejen huella, y que hagan que este viaje tenga un sentido más profundo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     HISTORIA PERSONAL
+════════════════════════════════════════════ -->
+<section class="seccion-historia">
+  <div class="contenedor">
+    <div class="historia-layout">
+
+      <div class="historia-lateral">
+        <div style="aspect-ratio:3/4;background:linear-gradient(135deg,var(--tierra) 0%,var(--tinta) 100%);margin-bottom:24px;display:flex;align-items:flex-end;padding:24px;">
+          <div>
+            <p style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(247,241,232,0.7);margin-bottom:8px;">Doctora en historia de mujeres<br>y guía de turismo</p>
+          </div>
+        </div>
+        <p class="historia-nombre">Ofelia</p>
+        <p class="historia-rol">La Marina Travel</p>
+      </div>
+
+      <div class="historia-contenido">
+        <span class="label-seccion">Quién soy</span>
+
+        <p class="cita-grande">"La historia no puede quedarse encerrada en la academia. Quería llevarla al mundo, hacerla caminar por las calles, darle voz."</p>
+
+        <p class="texto-cuerpo">Sé que hay sensaciones que no se pueden explicar con palabras. Pero voy a intentarlo.</p>
+
+        <p class="texto-cuerpo">La mayor parte de mi vida la he pasado rodeada de mujeres. Desde mi madre, con su luz y su fuerza, hasta mis amigas, tías y primas. Todas mujeres fuertes. Estudié Historia y recuerdo que ellas apenas aparecían en los libros, como si su huella se hubiera borrado del relato. Raro, ¿verdad?</p>
+
+        <p class="texto-cuerpo">Sin embargo, Madrid me abrió las puertas como una gran ventana donde todo es posible. Conocí a Las Sinsombrero, a Carmen Martín Gaite, a Rosa Chacel, a Maruja Mallo… y entendí que toda su historia sigue latiendo en nuestra piel. Sin ellas, la historia estaría incompleta.</p>
+
+        <p class="texto-cuerpo">Empecé un doctorado con el propósito de rescatar esas palabras que habían caído en el olvido. Y entonces algo hizo <em>clic</em>: comprendí que la historia no puede quedarse encerrada en la academia. Quería llevarla al mundo, hacerla caminar por las calles, darle voz. Así nacieron mis visitas guiadas en Madrid, y entendí que viajar, acompañar y divulgar también son formas de cuidarnos como sociedad.</p>
+
+        <p class="texto-cuerpo">Ahora quiero dar un salto más. Soñar más grande. Llevar la historia de las mujeres a mujeres que quieran darle una vuelta a su vida y descubrir que el mundo también está lleno de ellas.</p>
+
+        <div class="divisor divisor-izq"></div>
+
+        <p class="texto-cuerpo" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;color:var(--tinta);">Así que tienes dos opciones.</p>
+
+        <p class="texto-cuerpo">Puedes quedarte con el Madrid de siempre. El de las guías turísticas, los monumentos de siempre, las historias contadas mil veces. Ese donde solo te llevas un par de fotos que luego nunca vuelves a mirar.</p>
+
+        <p class="texto-cuerpo">O puedes venir conmigo. A caminar las calles donde vivieron mujeres que desafiaron su tiempo. A descubrir a Las Sinsombrero. A sentarte en una plaza y escuchar la historia que no te contaron en clase. A mirar un cuadro de Maruja Mallo y sentir que algo en ti se enciende. A conectar con un Madrid que casi nadie conoce — un Madrid que no está en los libros, pero sí en la piel de todas las que vinimos después.</p>
+
+        <p class="texto-cuerpo" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--tinta);">Un viaje donde los días no se miden en pasos ni en fotos, sino en emociones que se quedan contigo. Para siempre.</p>
+
+        <p class="texto-cuerpo"><strong>Tú decides.</strong></p>
+
+        <br>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSde89gsm855XuAZ0vYreBviI8REiGr5-LNeIGgpK7CBgl5YPg/viewform" class="btn-principal">Quiero saber más</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     PRECIO
+════════════════════════════════════════════ -->
+<section class="seccion-precio">
+  <div class="contenedor">
+    <div class="precio-layout">
+
+      <div>
+        <span class="label-seccion" style="color:var(--tierra-claro);">Inversión</span>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:16px;">
+          <span class="precio-numero">690</span>
+          <span class="precio-simbolo">€</span>
+        </div>
+        <p class="precio-descripcion">por persona · habitación compartida · todo incluido excepto vuelos</p>
+        <div class="precio-deposito">Reserva tu plaza con 100 € de depósito</div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSde89gsm855XuAZ0vYreBviI8REiGr5-LNeIGgpK7CBgl5YPg/viewform" class="btn-secundario" style="color:var(--crema);border-color:rgba(247,241,232,0.3);">Reservar plaza</a>
+      </div>
+
+      <div>
+        <p class="precio-titulo">¿Qué está incluido?</p>
+        <p class="precio-subtitulo">En destino</p>
+        <ul class="lista-incluido">
+          <li>Alojamiento 3 noches en habitaciones compartidas</li>
+          <li>Desayuno cada día</li>
+          <li>Todas las actividades y visitas guiadas</li>
+          <li>Proveedores y guías locales</li>
+        </ul>
+
+        <p class="precio-subtitulo">Antes, durante y después</p>
+        <ul class="lista-incluido">
+          <li>Yo misma te acompaño durante todo el viaje</li>
+          <li>Videollamada grupal previa para conocer al grupo</li>
+          <li>PDF con las mujeres que vamos a conocer — libros, películas, documentales para llegar preparada</li>
+          <li>Grupo privado de WhatsApp · soporte antes, durante y después</li>
+          <li>Gestión completa de proveedores y alojamientos</li>
+        </ul>
+
+        <p class="precio-subtitulo" style="margin-top:32px;">No está incluido</p>
+        <ul class="lista-incluido lista-no-incluido">
+          <li>Vuelo o tren hasta Madrid</li>
+          <li>Comidas y cenas</li>
+          <li>Seguro de viaje personal</li>
+        </ul>
+
+        <p style="font-size:13px;color:rgba(247,241,232,0.4);margin-top:24px;font-style:italic;">Habitación individual: no disponemos de esta opción. Este viaje está diseñado para crear comunidad — compartir el espacio es parte de la experiencia.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FAQ
+════════════════════════════════════════════ -->
+<section class="seccion-faq">
+  <div class="contenedor-estrecho">
+    <span class="label-seccion">Preguntas frecuentes</span>
+    <h2 class="titulo-seccion" style="margin-bottom:48px;">Todo lo que<br>necesitas saber.</h2>
+
+    <div class="faq-item">
+      <p class="faq-pregunta">¿Cómo sé si este viaje es para mí?</p>
+      <p class="faq-respuesta">Si te apasiona la historia, la cultura y quieres viajar con mujeres que comparten esa misma curiosidad — es para ti. No necesitas ningún conocimiento previo sobre historia de las mujeres. Solo ganas de aprender, de conectar y de vivir algo diferente. Yo me encargo del resto.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-pregunta">¿Tengo que venir sola?</p>
+      <p class="faq-respuesta">Puedes venir sola o acompañada. La mayoría de las viajeras vienen solas — y es precisamente lo que hace que el grupo conecte tan bien. Antes del viaje hacemos una videollamada para que ya os conozcáis, y cuando lleguéis a Madrid, la sensación de extrañas ha desaparecido.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-pregunta">¿Tengo que comprar yo el vuelo o el tren?</p>
+      <p class="faq-respuesta">Sí, los vuelos o el tren van por tu cuenta. Una vez reserves tu plaza, te ayudo con recomendaciones de llegada y salida para que todo cuadre con el grupo.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-pregunta">¿Cuántas plazas quedan?</p>
+      <p class="faq-respuesta">El grupo es de máximo 10 personas — y eso no va a cambiar. Cuando se completen, se completan. El viaje de diciembre 2025 se cerró antes de lanzar publicidad.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-pregunta">¿Cuáles son las condiciones de cancelación?</p>
+      <p class="faq-respuesta">El depósito de reserva de 100 € no es reembolsable. El resto del pago y las condiciones específicas las hablamos en la llamada, sin prisas.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-pregunta">¿Qué pasa después de rellenar el formulario?</p>
+      <p class="faq-respuesta">Te llamo en menos de 48 horas. Hablamos unos 20-30 minutos — sin compromiso, sin presión — para que puedas preguntarme todo lo que necesites y ver si encajamos. No hay que decidir nada en esa llamada si no quieres.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     CTA FINAL
+════════════════════════════════════════════ -->
+<section class="seccion-cta-final">
+  <div class="contenedor">
+    <h2 class="cta-final-titulo">Descubre la historia de las mujeres.<br>Y empieza a escribir la tuya.</h2>
+    <p class="cta-final-texto">Rellena el formulario y te llamo. Sin compromiso. Una conversación de 20 minutos para contarte todo y ver si este viaje es para ti.</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSde89gsm855XuAZ0vYreBviI8REiGr5-LNeIGgpK7CBgl5YPg/viewform" class="btn-blanco">Quiero una llamada para saber más</a>
+    <p class="plazas-aviso">Quedan plazas limitadas · Máximo 10 viajeras · Madrid, 3–6 septiembre 2026</p>
+  </div>
+</section>
+
+</body>
+</html>
